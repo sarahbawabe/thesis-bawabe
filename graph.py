@@ -7,6 +7,7 @@ from newNBody import *
 from pylab import *
 from starData import *
 import bodyObject as bOb
+import random
 
 
 def build_graph(coords, printOut=False, fullyConnected=False):
@@ -21,8 +22,6 @@ def build_graph(coords, printOut=False, fullyConnected=False):
                     nodeA = graph.nodes[n]
                     nodeB = graph.nodes[i]
                     edge_wt = math.sqrt(np.sum((nodeA['coords'] - nodeB['coords'])**2))
-                    # edge_wt = math.sqrt((nodeA['x'] - nodeB['x'])**2 + (nodeA['y'] - nodeB['y'])**2 + (nodeA['z'] - nodeB['z'])**2)
-                    # print("edge_wt", edge_wt)
                     graph.add_edge(n, i, weight=edge_wt)
 
     # print out node list
@@ -37,7 +36,7 @@ def plot_graph(graph):
     plt.draw()
     plt.show()
 
-def plot_3d_graph(graph):
+def plot_3d_graph(graph, fig=None):
     ''' This code is adapted from the example located at:
     https://networkx.org/documentation/latest/auto_examples/3d_drawing/plot_basic.html
     #sphx-glr-auto-examples-3d-drawing-plot-basic-py
@@ -51,7 +50,8 @@ def plot_3d_graph(graph):
     ax = fig.add_subplot(111, projection="3d")
 
     # Plot the nodes - alpha is scaled by "depth" automatically
-    ax.scatter(*node_xyz.T, s=100, ec="w")
+    color = "#%06x" % random.randint(0, 0xFFFFFF) # give nodes random color
+    ax.scatter(*node_xyz.T, s=100, color=color)
 
     # Plot the edges
     for vizedge in edge_xyz:
@@ -63,6 +63,43 @@ def plot_3d_graph(graph):
     ax.set_zlabel("z")
 
     fig.tight_layout()
+
+    plt.show()
+
+def plot_3d_graphs(graph_list):
+    '''
+    Plots multiple graphs, each with a different random color for its nodes
+    and edges.
+    '''
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection="3d")
+
+    for graph in graph_list:
+        # Extract node and edge positions from the stored coordinates of nodes in graph
+        node_xyz = np.array([graph.nodes[v]['coords'] for v in graph.nodes])
+        edge_xyz = np.array([(graph.nodes[u]['coords'], graph.nodes[v]['coords']) for u, v in graph.edges()])
+
+        # generate random color for nodes
+        r = random.random()
+        g = random.random()
+        b = random.random()
+        color = (r,g,b)
+
+        # Plot the nodes - alpha is scaled by "depth" automatically
+        ax.scatter(*node_xyz.T, s=100, color=color)
+
+        # Plot the edges (& color in lighter version of node color)
+        light_color = (r,g,b,0.3)
+        for vizedge in edge_xyz:
+            ax.plot(*vizedge.T, color=light_color)
+
+    # Set axes labels
+    ax.set_xlabel("x")
+    ax.set_ylabel("y")
+    ax.set_zlabel("z")
+
+    fig.tight_layout()
+
     plt.show()
 
 def create_and_plot_mst(graph):
