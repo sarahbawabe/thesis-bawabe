@@ -111,21 +111,25 @@ def get_ecc_distribution(ecc_dict):
     return dist_dict
 
 
-def main():
+def test_isomorphism(graph):
+    num_nodes = nx.number_of_nodes(graph)
+    num_edges = max(get_avg_connectivity(graph), 1)
+    print("avg connectivity", num_edges)
+
+    ba_graph = nx.generators.random_graphs.barabasi_albert_graph(num_nodes, num_edges)
+    ba_iso = nx.algorithms.isomorphism.faster_could_be_isomorphic(graph, ba_graph)
+    print("Isomorphic with barabasi_albert_graph?", ba_iso)
+
+
+def get_avg_connectivity(graph):
     '''
-    Function called by mainline.
+    Finds the average connectivity (avg # of edges each node is adjacent to) of
+    the graph.
     '''
-    snapshot = 'snap_000.0'
-    RADIUS = 2000
-    ids, coords = parser.read_snapshot(snapshot)
-    graph = kdtree.build_nneigh_graph(coords[:10], RADIUS)
+    return int(np.mean(np.array(list(nx.algorithms.assortativity.average_neighbor_degree(graph).values()))))
 
-    tree = g.get_mst(graph)
 
-    # find communities and update nodes' color attributes, then plot
-    communities = get_communities(graph)
-    g.plot_3d_graph(graph)
-
+def graph_properties(graph, communities):
     # calculate modularity of graph
     modularity = get_modularity(graph, communities)
     print("modularity", modularity)
@@ -139,11 +143,31 @@ def main():
     ecc_dist = get_ecc_distribution(eccentricity)
     print("ecc_dist", ecc_dist)
 
-    # plot graph showing communities
-    g.plot_3d_graphs(communities)
+
+def main():
+    '''
+    Function called by mainline.
+    '''
+    snapshot = 'snap_000.0'
+    radius = 2500
+    # best combos: 100 nodes & r=5000, 10 nodes & r=2500
+
+    ids, coords = parser.read_snapshot(snapshot)
+    graph = kdtree.build_nneigh_graph(coords[:10], radius)
+
+    # test isomorphism of graph against random graph
+    test_isomorphism(graph)
+
+    # find mst of graph
+    tree = g.get_mst(graph)
+
+    # find communities and update nodes' color attributes, then plot
+    communities = get_communities(graph)
+
+    g.plot_3d_graph(graph)
 
     # plot graph showing condensed communities
-    condensed = condense_graph(communities, RADIUS)
+    condensed = condense_graph(communities, radius)
     g.plot_3d_graph(condensed)
 
 
