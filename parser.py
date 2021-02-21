@@ -4,7 +4,6 @@ import graph as g
 import kdtree
 
 def read_snapshot(snapshot, printOut=False):
-    # input files
     ptype = [1] #[1](CDM), [2](neutrinos) or [1,2](CDM+neutrinos)
     header = rs.snapshot_header(snapshot) # reads snapshot header
 
@@ -42,7 +41,6 @@ def main():
     snapshot = 'snap_000.0'
     ids, coords = read_snapshot(snapshot)
     graph = kdtree.build_nneigh_graph(coords[:100], 3000)
-    # graph = gr.build_graph(coords[:100])
     g.plot_3d_graph(graph)
 
 if __name__ == '__main__':

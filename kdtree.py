@@ -7,7 +7,18 @@ from starData import *
 import bodyObject as bOb
 from graph import *
 
+
 def build_nneigh_graph(coords, radius):
+    '''
+    Builds a graph where nodes are connected to all neighboring nodes within given
+    radius.
+    @param coords : list of coordinate locations of each node
+    @param radius : size of radius determining area within which nodes connect with
+    each other
+    @return graph of nodes with given coordinates, where nodes within radius of
+    each other are connected
+    '''
+    
     kdtree = spatial.KDTree(coords)
     neighs = kdtree.query_ball_point(coords, radius)
     graph = build_graph(coords)
@@ -16,7 +27,7 @@ def build_nneigh_graph(coords, radius):
     for i in range(len(neighs)):
         if len(neighs[i]) > 1: # if has neighbors within radius
             for j in range(len(neighs[i])):
-                if i != j: # no loops
+                if i != j: # ensure no self-loops
                     graph.add_edge(i, j)
 
     return graph

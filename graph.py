@@ -9,13 +9,22 @@ from starData import *
 import bodyObject as bOb
 import random
 
+BASE_NODE_COLOR = (17/255,71/255,106/255)
+BASE_EDGE_COLOR = (65/255,151/255,189/255,0.1)
 
 def build_graph(coords, printOut=False, fullyConnected=False):
+    '''
+    Builds a graph given the position coordinates of each node to be added.
+    @param coords           : list of coordinate locations of each node
+    @param printOut         : boolean representing whether the function should print the
+                            graph to the terminal
+    @param fullyConnected   : boolean representing whether every node should be
+                            connected to every other node
+    @return nx graph of nodes with given coordinates
+    '''
     graph = nx.Graph()
     for i in range(len(coords)):
-        # name=planet_list[i]
-        # graph.add_node(i, x=x_coords[i][time], y=y_coords[i][time], z=z_coords[i][time])
-        graph.add_node(i, coords=coords[i,:])
+        graph.add_node(i, coords=coords[i,:], color=BASE_NODE_COLOR, ec=BASE_EDGE_COLOR)
         if fullyConnected:
             for n in graph:
                 if n != i:
@@ -24,20 +33,29 @@ def build_graph(coords, printOut=False, fullyConnected=False):
                     edge_wt = math.sqrt(np.sum((nodeA['coords'] - nodeB['coords'])**2))
                     graph.add_edge(n, i, weight=edge_wt)
 
-    # print out node list
+    # print out node list, if applicable
     if printOut == True:
         for node in graph:
             print("NODE ", node, graph.nodes[node])
 
     return graph
 
+
 def plot_graph(graph):
+    '''
+    Takes in an nx graph and plots it in 2-dimensions.
+    '''
     nx.draw(graph, with_labels=True)
     plt.draw()
     plt.show()
 
-def plot_3d_graph(graph, fig=None):
-    ''' This code is adapted from the example located at:
+
+def plot_3d_graph(graph):
+    '''
+    Takes in an nx graph with 3-dimensional position coordinates, and plots it in
+    3d space. Assigns a color to the graph nodes based on the node's 'color' attribute.
+
+    This code is adapted from the example located at:
     https://networkx.org/documentation/latest/auto_examples/3d_drawing/plot_basic.html
     #sphx-glr-auto-examples-3d-drawing-plot-basic-py
     '''
@@ -50,12 +68,12 @@ def plot_3d_graph(graph, fig=None):
     ax = fig.add_subplot(111, projection="3d")
 
     # Plot the nodes - alpha is scaled by "depth" automatically
-    color = "#%06x" % random.randint(0, 0xFFFFFF) # give nodes random color
-    ax.scatter(*node_xyz.T, s=100, color=color)
+    ax.scatter(*node_xyz.T, s=100, color=[graph.nodes[node]['color'] for node in graph.nodes])
 
     # Plot the edges
-    for vizedge in edge_xyz:
-        ax.plot(*vizedge.T, color="tab:gray")
+    colors = [graph.nodes[u]['ec'] for u,v in graph.edges]
+    for i in range(len(edge_xyz)):
+        ax.plot(*edge_xyz[i].T, color=colors[i])
 
     # Set axes labels
     ax.set_xlabel("x")
@@ -63,8 +81,14 @@ def plot_3d_graph(graph, fig=None):
     ax.set_zlabel("z")
 
     fig.tight_layout()
-
     plt.show()
+
+# def plot_color_communities(graph):
+#     '''
+#     Relies on nodes in each community to have an associated color attribute.
+#     '''
+
+
 
 def plot_3d_graphs(graph_list):
     '''
@@ -102,12 +126,13 @@ def plot_3d_graphs(graph_list):
 
     plt.show()
 
-def create_and_plot_mst(graph):
-    tree = nx.minimum_spanning_tree(graph)
-    nx.draw(tree, with_labels=True)
-    plt.draw()
-    plt.show()
-    return tree
+
+def get_mst(graph):
+    '''
+    Takes in an nx graph and finds its corresponding minimum spanning tree.
+    '''
+    return nx.minimum_spanning_tree(graph)
+
 
 if __name__ == '__main__':
     # obj_list = bOb.convert_to_obj_list(m, coords_matrix, vels_matrix)
@@ -119,5 +144,5 @@ if __name__ == '__main__':
     # graph = build_graph(nBody.pos_matrix[:,0,:],nBody.pos_matrix[:,1,:],nBody.pos_matrix[:,2,:],9)
     graph = build_graph(nBody.pos_matrix[:,:,0], printOut=True, fullyConnected=True)
     plot_graph(graph)
-    tree = create_and_plot_mst(graph)
+    tree = get_mst(graph)
     plot_3d_graph(tree)
