@@ -1,3 +1,5 @@
 snap_000.0
 .DS_Store
 /__pycache__/
+gnn/
+old_dl_gnn/
