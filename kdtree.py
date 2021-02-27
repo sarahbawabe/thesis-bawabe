@@ -14,11 +14,11 @@ def build_nneigh_graph(coords, radius):
     radius.
     @param coords : list of coordinate locations of each node
     @param radius : size of radius determining area within which nodes connect with
-    each other
+                    each other (should be same units as coords)
     @return graph of nodes with given coordinates, where nodes within radius of
     each other are connected
     '''
-    
+
     kdtree = spatial.KDTree(coords)
     neighs = kdtree.query_ball_point(coords, radius)
     graph = build_graph(coords)
