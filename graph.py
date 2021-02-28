@@ -24,14 +24,15 @@ def build_graph(coords, printOut=False, fullyConnected=False):
     '''
     graph = nx.Graph()
     for i in range(len(coords)):
-        graph.add_node(i, coords=coords[i,:], color=BASE_NODE_COLOR, ec=BASE_EDGE_COLOR)
-        if fullyConnected:
-            for n in graph:
-                if n != i:
-                    nodeA = graph.nodes[n]
-                    nodeB = graph.nodes[i]
-                    edge_wt = math.sqrt(np.sum((nodeA['coords'] - nodeB['coords'])**2))
-                    graph.add_edge(n, i, weight=edge_wt)
+        # graph.add_node(i, coords=coords[i,:], color=BASE_NODE_COLOR, ec=BASE_EDGE_COLOR)
+        graph.add_node(i)
+        # if fullyConnected:
+        #     for n in graph:
+        #         if n != i:
+        #             nodeA = graph.nodes[n]
+        #             nodeB = graph.nodes[i]
+        #             edge_wt = math.sqrt(np.sum((nodeA['coords'] - nodeB['coords'])**2))
+        #             graph.add_edge(n, i, weight=edge_wt)
 
     # print out node list, if applicable
     if printOut == True:
