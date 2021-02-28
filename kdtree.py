@@ -1,10 +1,6 @@
 import numpy as np
 from scipy import spatial
 import networkx as nx
-from code.newNBody import *
-from pylab import *
-from code.starData import *
-import code.bodyObject as bOb
 from code.graph import *
 
 

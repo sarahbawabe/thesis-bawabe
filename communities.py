@@ -1,7 +1,7 @@
 import networkx.algorithms.community as nx_comm
 import networkx.algorithms.distance_measures as nx_dist
-import code.parser
-import code.kdtree
+import code.parser as parser
+import code.kdtree as kdtree
 import code.graph as g
 import networkx as nx
 import numpy as np
