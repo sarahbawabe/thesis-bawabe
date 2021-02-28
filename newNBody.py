@@ -17,8 +17,8 @@ this simulation is no longer limited to 3-dimensional space).
 import numpy as np
 import matplotlib.pyplot as plt
 from pylab import *
-from starData import *
-import bodyObject as bObj
+from code.starData import *
+import code.bodyObject as bObj
 
 class NBody:
 

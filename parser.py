@@ -1,7 +1,7 @@
-import readgadget
-import readsnap as rs
-import graph as g
-import kdtree
+import code.readgadget
+import code.readsnap as rs
+import code.graph as g
+import code.kdtree
 
 def read_snapshot(snapshot, printOut=False):
     ptype = [1] #[1](CDM), [2](neutrinos) or [1,2](CDM+neutrinos)

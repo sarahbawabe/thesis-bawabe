@@ -3,10 +3,10 @@ import math
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 import networkx as nx
-from newNBody import *
+from code.newNBody import *
 from pylab import *
-from starData import *
-import bodyObject as bOb
+from code.starData import *
+import code.bodyObject as bOb
 import random
 
 BASE_NODE_COLOR = (17/255,71/255,106/255)

@@ -1,8 +1,8 @@
 import networkx.algorithms.community as nx_comm
 import networkx.algorithms.distance_measures as nx_dist
-import parser
-import kdtree
-import graph as g
+import code.parser
+import code.kdtree
+import code.graph as g
 import networkx as nx
 import numpy as np
 import random

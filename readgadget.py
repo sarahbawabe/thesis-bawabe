@@ -4,7 +4,7 @@ Imported from https://github.com/franciscovillaescusa/Pylians3/blob/master/libra
 
 # This library is designed to read Gadget format I, format II and hdf5 files
 import numpy as np
-import readsnap
+import code.readsnap
 import sys,os,h5py
 
 # find snapshot name and format

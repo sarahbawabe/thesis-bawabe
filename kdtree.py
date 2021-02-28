@@ -1,11 +1,11 @@
 import numpy as np
 from scipy import spatial
 import networkx as nx
-from newNBody import *
+from code.newNBody import *
 from pylab import *
-from starData import *
-import bodyObject as bOb
-from graph import *
+from code.starData import *
+import code.bodyObject as bOb
+from code.graph import *
 
 
 def build_nneigh_graph(coords, radius):
