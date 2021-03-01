@@ -27,7 +27,7 @@ def build_nneigh_graph(coords, radius):
     for i in range(len(neighs)):
         if len(neighs[i]) > 1: # if has neighbors within radius
             for j in range(len(neighs[i])):
-                if i != j: # ensure no self-loops
+                if i != j and not graph.has_edge(j,i): # ensure no self-loops or duplicates
                     graph.add_edge(i, j)
 
     return graph
