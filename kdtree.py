@@ -29,10 +29,36 @@ def build_nneigh_graph(coords, radius, simple=False):
         graph = build_graph(coords)
 
     # add edges to graph
+    num2 = 0
     for i in range(len(neighs)):
         if len(neighs[i]) > 1: # if has neighbors within radius
-            for j in range(len(neighs[i])):
-                if i != j and not graph.has_edge(j,i): # ensure no self-loops or duplicates
-                    graph.add_edge(i, j)
-
+            for neigh in neighs[i]:
+                if i != neigh and not graph.has_edge(neigh,i): # ensure no self-loops or duplicates
+                    graph.add_edge(i, neigh)
+                    print(i, neigh)
+                    num2 +=1
+    print("NUM EDGES:", num2)
     return graph
+
+
+    # kdtree = spatial.KDTree(coords)
+    # neighs = kdtree.query_ball_point(coords, radius)
+    # num = 0
+    # for list in neighs:
+    #     num += (len(list) - 1)
+    # print(num)
+    #
+    # graph = None
+    # if simple:
+    #     graph = build_simple_graph(coords)
+    # else:
+    #     graph = build_graph(coords)
+    #
+    # # add edges to graph
+    # for i in range(len(neighs)):
+    #     if len(neighs[i]) > 1: # if has neighbors within radius
+    #         for j in range(len(neighs[i])):
+    #             if i != j and not graph.has_edge(j,i): # ensure no self-loops or duplicates
+    #                 graph.add_edge(i, j)
+    #
+    # return graph
