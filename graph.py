@@ -22,9 +22,9 @@ def build_graph(coords, printOut=False, fullyConnected=False):
                             connected to every other node
     @return nx graph of nodes with given coordinates
     '''
-    graph = nx.Graph()
+    graph = nx.Graph() # basic graph
     for i in range(len(coords)):
-        # graph.add_node(i, coords=coords[i,:], color=BASE_NODE_COLOR, ec=BASE_EDGE_COLOR)
+        # graph2.add_node(i, coords=coords[i,:], color=BASE_NODE_COLOR, ec=BASE_EDGE_COLOR)
         graph.add_node(i)
         # if fullyConnected:
         #     for n in graph:
