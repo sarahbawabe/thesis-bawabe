@@ -35,7 +35,6 @@ def build_nneigh_graph(coords, radius, simple=False):
             for neigh in neighs[i]:
                 if i != neigh and not graph.has_edge(neigh,i): # ensure no self-loops or duplicates
                     graph.add_edge(i, neigh)
-                    print(i, neigh)
                     num2 +=1
     print("NUM EDGES:", num2)
     return graph
