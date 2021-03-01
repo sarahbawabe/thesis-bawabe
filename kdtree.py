@@ -17,6 +17,10 @@ def build_nneigh_graph(coords, radius, simple=False):
 
     kdtree = spatial.KDTree(coords)
     neighs = kdtree.query_ball_point(coords, radius)
+    num = 0
+    for list in neighs:
+        num += (len(list) - 1)
+    print(num)
 
     graph = None
     if simple:
