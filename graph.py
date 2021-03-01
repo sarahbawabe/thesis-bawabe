@@ -14,7 +14,8 @@ BASE_EDGE_COLOR = (65/255,151/255,189/255,0.1)
 
 def build_graph(coords, printOut=False, fullyConnected=False):
     '''
-    Builds a graph given the position coordinates of each node to be added.
+    Builds a graph given the position coordinates of each node to be added. Nodes
+    are knowledgable of their color, coordinates, and edge color.
     @param coords           : list of coordinate locations of each node
     @param printOut         : boolean representing whether the function should print the
                             graph to the terminal
@@ -24,20 +25,31 @@ def build_graph(coords, printOut=False, fullyConnected=False):
     '''
     graph = nx.Graph() # basic graph
     for i in range(len(coords)):
-        # graph2.add_node(i, coords=coords[i,:], color=BASE_NODE_COLOR, ec=BASE_EDGE_COLOR)
-        graph.add_node(i)
-        # if fullyConnected:
-        #     for n in graph:
-        #         if n != i:
-        #             nodeA = graph.nodes[n]
-        #             nodeB = graph.nodes[i]
-        #             edge_wt = math.sqrt(np.sum((nodeA['coords'] - nodeB['coords'])**2))
-        #             graph.add_edge(n, i, weight=edge_wt)
+        graph.add_node(i, coords=coords[i,:], color=BASE_NODE_COLOR, ec=BASE_EDGE_COLOR)
+        if fullyConnected:
+            for n in graph:
+                if n != i:
+                    nodeA = graph.nodes[n]
+                    nodeB = graph.nodes[i]
+                    edge_wt = math.sqrt(np.sum((nodeA['coords'] - nodeB['coords'])**2))
+                    graph.add_edge(n, i, weight=edge_wt)
 
     # print out node list, if applicable
     if printOut == True:
         for node in graph:
             print("NODE ", node, graph.nodes[node])
+
+    return graph
+
+def build_simple_graph(coords):
+    '''
+    Builds a graph given the position coordinates of each node to be added.
+    @param coords : list of coordinate locations of each node
+    @return nx graph of nodes with given coordinates
+    '''
+    graph = nx.Graph() # basic graph
+    for i in range(len(coords)):
+        graph.add_node(i)
 
     return graph
 
