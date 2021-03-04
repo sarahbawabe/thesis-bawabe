@@ -76,7 +76,7 @@ def condense_graph(communities, radius, simple=True):
 
     graph = kdtree.build_nneigh_graph(np.array(positions), radius)
 
-    for node in graph:
+    for node in graph.nodes:
         node['coords'] = ''
 
     if not simple:
