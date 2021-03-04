@@ -74,12 +74,13 @@ def condense_graph(communities, radius, simple=True):
             colors.append(community.nodes.get(next(iter(community.nodes.keys())))['color'])
             e_colors.append(community.nodes.get(next(iter(community.nodes.keys())))['ec'])
 
-    graph = kdtree.build_nneigh_graph(np.array(positions), radius)
+    graph = kdtree.build_nneigh_graph(np.array(positions), radius, simple)
 
-    for node in graph.nodes:
-        graph.nodes[node]['coords'] = ''
-        graph.nodes[node]['ec'] = ''
-        graph.nodes[node]['color'] = ''
+    # for node in graph.nodes:
+    #     graph.nodes[node]['coords'] = ''
+    #     graph.nodes[node]['ec'] = ''
+    #     graph.nodes[node]['color'] = ''
+
 
     if not simple:
         for i in range(len(graph.nodes)):
