@@ -20,7 +20,7 @@ def build_nneigh_graph(coords, radius, simple=False):
     num = 0
     for list in neighs:
         num += (len(list) - 1)
-    print(num)
+    print("found neighbors", num)
 
     graph = None
     if simple:
