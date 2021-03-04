@@ -16,7 +16,7 @@ def get_modularity(graph, communities):
     return nx_comm.modularity(graph, communities)
 
 
-def get_communities(graph):
+def get_communities(graph, simple=True):
     '''
     Finds communities in a given graph, such that modularity is optimized. Each
     node in each community given an updated color attribute, so that it "knows"
@@ -28,11 +28,12 @@ def get_communities(graph):
     @return list containing subgraphs of type nx.graph
     '''
     community_list = list(nx_comm.greedy_modularity_communities(graph))
-    for community in community_list:
-        color, e_color = get_random_colors() # generate random color for each community
-        for node in community:
-            graph.nodes[node]['color'] = color
-            graph.nodes[node]['ec'] = e_color
+    if not simple:
+        for community in community_list:
+            color, e_color = get_random_colors() # generate random color for each community
+            for node in community:
+                graph.nodes[node]['color'] = color
+                graph.nodes[node]['ec'] = e_color
 
     communities = []
     for comm in community_list:
