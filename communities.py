@@ -56,7 +56,7 @@ def get_random_colors():
     return [color, e_color]
 
 
-def condense_graph(communities, radius):
+def condense_graph(communities, radius, simple=True):
     '''
     Takes in a list of subgraphs and averages their position data to gain an
     average position coordinate. Then creates a new node with this average as its
@@ -70,13 +70,19 @@ def condense_graph(communities, radius):
         node_xyz = np.array([community.nodes[v]['coords'] for v in community.nodes])
         avg_xyz = np.mean(node_xyz, axis=0)
         positions.append(avg_xyz)
-        colors.append(community.nodes.get(next(iter(community.nodes.keys())))['color'])
-        e_colors.append(community.nodes.get(next(iter(community.nodes.keys())))['ec'])
+        if not simple:
+            colors.append(community.nodes.get(next(iter(community.nodes.keys())))['color'])
+            e_colors.append(community.nodes.get(next(iter(community.nodes.keys())))['ec'])
 
     graph = kdtree.build_nneigh_graph(np.array(positions), radius)
-    for i in range(len(graph.nodes)):
-        graph.nodes[i]['color'] = colors[i]
-        graph.nodes[i]['ec'] = e_colors[i]
+
+    for node in graph:
+        del node['coords']
+    
+    if not simple:
+        for i in range(len(graph.nodes)):
+            graph.nodes[i]['color'] = colors[i]
+            graph.nodes[i]['ec'] = e_colors[i]
 
     return graph
 
