@@ -32,7 +32,7 @@ def build_graph(coords, printOut=False, fullyConnected=False):
                     nodeA = graph.nodes[n]
                     nodeB = graph.nodes[i]
                     edge_wt = math.sqrt(np.sum((nodeA['coords'] - nodeB['coords'])**2))
-                    graph.add_edge(n, i, weight=edge_wt)
+                    graph.add_edge(n, i, weight=(1/edge_wt**2))
 
     # print out node list, if applicable
     if printOut == True:
