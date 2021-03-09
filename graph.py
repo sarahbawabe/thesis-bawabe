@@ -28,7 +28,7 @@ def build_graph(coords, printOut=False, fullyConnected=False):
         graph.add_node(i, coords=coords[i,:], color=BASE_NODE_COLOR, ec=BASE_EDGE_COLOR)
         if fullyConnected:
             for n in graph:
-                if n != i:
+                if n != i and not graph.has_edge(n,i):
                     nodeA = graph.nodes[n]
                     nodeB = graph.nodes[i]
                     edge_wt = math.sqrt(np.sum((nodeA['coords'] - nodeB['coords'])**2))
